@@ -32,7 +32,7 @@ LIST_URL = (
     "https://publicsports.yongin.go.kr/publicsports/sports/"
     "selectFcltyRceptResveListU.do?key=4290&searchResveType=RESIDENTRESVE"
 )
-CDP_URL = "http://localhost:9222"          # Chrome 원격 디버깅 주소
+CDP_URL = "http://127.0.0.1:9222"          # Chrome 원격 디버깅 주소
 FACILITY_NAME = "수지체육공원축구장"
 OPEN_TIME = "09:00:00"                      # 예약 오픈 시각 (서버 시간 기준)
 WEEKDAY = 0                                 # 0=월요일 ... 6=일요일
@@ -232,7 +232,13 @@ def main() -> int:
     args = ap.parse_args()
 
     with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp(CDP_URL)
+        try:
+            browser = p.chromium.connect_over_cdp(CDP_URL)
+        except Exception as e:  # noqa: BLE001
+            log(f"Chrome 연결 실패: {e}")
+            log(f"브라우저 주소창에 {CDP_URL}/json/version 을 열어 보세요.")
+            log("내용이 안 나오면 Chrome 을 모두 종료한 뒤 README 의 명령으로 다시 실행하세요.")
+            return 1
         context = browser.contexts[0]
         # 확인창(alert/confirm)은 모두 '확인'
         def on_dialog(dlg):
