@@ -22,10 +22,10 @@ pip install -r requirements.txt
 스크립트는 이미 로그인된 Chrome 창에 연결해서 동작합니다.
 새 Chrome 창을 아래 명령으로 띄운 뒤, **그 창에서** 사이트에 로그인해 두세요.
 
-Windows:
+Windows (PowerShell, 맨 앞 `&` 필수):
 
-```bash
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir=C:\chrome-reserve
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir=C:\chrome-reserve
 ```
 
 macOS:
